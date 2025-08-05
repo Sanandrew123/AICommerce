@@ -58,4 +58,4 @@ env/
 # React
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
+yarn-error.log*.git-token
