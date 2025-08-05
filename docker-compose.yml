@@ -1,0 +1,101 @@
+# Docker Compose配置
+# 心理过程：统一管理所有服务，便于学习微服务间的网络通信和依赖关系
+
+version: '3.8'
+
+services:
+  # PostgreSQL数据库
+  postgres:
+    image: postgres:15
+    container_name: ai-ecommerce-db
+    environment:
+      POSTGRES_DB: ai_ecommerce
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ai-ecommerce-network
+
+  # Redis缓存
+  redis:
+    image: redis:7-alpine
+    container_name: ai-ecommerce-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ai-ecommerce-network
+
+  # Java后端服务
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ai-ecommerce-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=ai_ecommerce
+      - DB_USER=admin
+      - DB_PASSWORD=password123
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - AI_SERVICE_URL=http://ai-service:5000
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - ai-ecommerce-network
+
+  # Python AI服务
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: ai-ecommerce-ai
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_ENV=production
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=ai_ecommerce
+      - DB_USER=admin
+      - DB_PASSWORD=password123
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - ai-ecommerce-network
+
+  # React前端
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ai-ecommerce-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080/api
+      - REACT_APP_AI_SERVICE_URL=http://localhost:5000
+    depends_on:
+      - backend
+      - ai-service
+    networks:
+      - ai-ecommerce-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ai-ecommerce-network:
+    driver: bridge

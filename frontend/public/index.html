@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="AI智能电商平台 - 体验未来购物新方式"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    
+    <!-- 预加载字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <title>AI Commerce - 智能电商平台</title>
+    
+    <style>
+      /* AWS风格的加载动画 */
+      .aws-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #0f1419 0%, #1a252f 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      
+      .aws-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #232f3e;
+        border-top: 3px solid #ff9900;
+        border-radius: 50%;
+        animation: aws-spin 1s linear infinite;
+      }
+      
+      @keyframes aws-spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .aws-loader-text {
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        margin-top: 20px;
+        opacity: 0.8;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>您需要启用JavaScript来运行此应用程序。</noscript>
+    
+    <!-- AWS风格加载屏幕 -->
+    <div id="aws-loader" class="aws-loader">
+      <div>
+        <div class="aws-spinner"></div>
+        <div class="aws-loader-text">正在加载 AI Commerce...</div>
+      </div>
+    </div>
+    
+    <div id="root"></div>
+    
+    <script>
+      // 隐藏加载屏幕
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          const loader = document.getElementById('aws-loader');
+          if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 300);
+          }
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>

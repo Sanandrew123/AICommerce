@@ -1,0 +1,61 @@
+# 编译输出
+backend/target/
+frontend/build/
+frontend/dist/
+
+# 依赖目录
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDE文件
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 日志文件  
+*.log
+logs/
+
+# 环境变量文件
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# 数据库文件
+*.db
+*.sqlite
+
+# 临时文件
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Docker
+.dockerignore
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# Python虚拟环境
+venv/
+env/
+.venv/
+
+# React
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

@@ -1,0 +1,217 @@
+/* AWS风格全局样式文件 */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AWS风格基础样式 */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  body {
+    @apply bg-aws-gray-50 text-aws-gray-900 antialiased;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+}
+
+/* AWS风格组件样式 */
+@layer components {
+  /* 按钮组件 */
+  .btn-aws-primary {
+    @apply bg-aws-orange hover:bg-aws-orange-dark text-white font-medium py-2.5 px-6 rounded-lg transition-all duration-200 shadow-aws;
+    @apply focus:outline-none focus:ring-2 focus:ring-aws-orange focus:ring-offset-2;
+  }
+  
+  .btn-aws-secondary {
+    @apply bg-white hover:bg-aws-gray-50 text-aws-gray-700 font-medium py-2.5 px-6 rounded-lg border border-aws-gray-300 transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-aws-blue focus:ring-offset-2;
+  }
+  
+  .btn-aws-ghost {
+    @apply text-aws-blue hover:text-aws-blue-light font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+    @apply hover:bg-aws-gray-100;
+  }
+  
+  /* 输入框组件 */
+  .input-aws {
+    @apply w-full px-4 py-2.5 border border-aws-gray-300 rounded-lg shadow-sm transition-all duration-200;
+    @apply focus:ring-2 focus:ring-aws-blue focus:border-aws-blue focus:outline-none;
+    @apply placeholder-aws-gray-400 text-aws-gray-700;
+  }
+  
+  /* 卡片组件 */
+  .card-aws {
+    @apply bg-white rounded-xl shadow-aws hover:shadow-aws-lg transition-all duration-200;
+    @apply border border-aws-gray-200;
+  }
+  
+  .card-aws-dark {
+    @apply bg-aws-navy text-white rounded-xl shadow-aws-lg;
+    @apply border border-aws-navy-light;
+  }
+  
+  /* 导航组件 */
+  .nav-aws {
+    @apply bg-white border-b border-aws-gray-200 shadow-aws;
+  }
+  
+  .nav-aws-dark {
+    @apply bg-aws-navy border-b border-aws-navy-light;
+  }
+  
+  /* 标签组件 */
+  .tag-aws {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium;
+    @apply bg-aws-gray-100 text-aws-gray-700;
+  }
+  
+  .tag-aws-orange {
+    @apply bg-aws-orange-light bg-opacity-20 text-aws-orange-dark;
+  }
+  
+  .tag-aws-blue {
+    @apply bg-aws-blue-light bg-opacity-20 text-aws-blue;
+  }
+  
+  /* 表单组件 */
+  .form-group-aws {
+    @apply space-y-2;
+  }
+  
+  .form-label-aws {
+    @apply block text-sm font-medium text-aws-gray-700;
+  }
+  
+  .form-error-aws {
+    @apply text-red-600 text-sm mt-1;
+  }
+}
+
+/* AWS风格工具类 */
+@layer utilities {
+  .text-aws-gradient {
+    background: linear-gradient(135deg, #ff9900 0%, #146eb4 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .bg-aws-gradient {
+    @apply bg-aws-gradient;
+  }
+  
+  .glass-aws {
+    backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  
+  .glass-aws-dark {
+    backdrop-filter: blur(10px);
+    background-color: rgba(15, 20, 25, 0.9);
+  }
+}
+
+/* AWS风格滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-aws-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-aws-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-aws-gray-400;
+}
+
+/* AWS风格选择高亮 */
+::selection {
+  @apply bg-aws-orange-light bg-opacity-30;
+}
+
+::-moz-selection {
+  @apply bg-aws-orange-light bg-opacity-30;
+}
+
+/* AWS风格焦点样式 */
+.focus-aws {
+  @apply focus:outline-none focus:ring-2 focus:ring-aws-blue focus:ring-offset-2;
+}
+
+/* 暗色主题支持 */
+@media (prefers-color-scheme: dark) {
+  .dark-mode body {
+    @apply bg-aws-dark text-white;
+  }
+  
+  .dark-mode .card-aws {
+    @apply bg-aws-navy text-white border-aws-navy-light;
+  }
+  
+  .dark-mode .input-aws {
+    @apply bg-aws-navy border-aws-navy-light text-white placeholder-aws-gray-400;
+  }
+}
+
+/* 响应式文字 */
+.text-responsive {
+  font-size: clamp(0.875rem, 2.5vw, 1.125rem);
+}
+
+.text-responsive-lg {
+  font-size: clamp(1.125rem, 4vw, 2rem);
+}
+
+.text-responsive-xl {
+  font-size: clamp(1.5rem, 6vw, 3rem);
+}
+
+/* AWS风格动画 */
+@keyframes aws-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-aws-pulse {
+  animation: aws-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 加载状态 */
+.loading-aws {
+  @apply relative overflow-hidden;
+}
+
+.loading-aws::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: loading-shine 1.5s infinite;
+}
+
+@keyframes loading-shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
