@@ -1,0 +1,104 @@
+# Windows环境专用配置
+# 为Windows开发者提供本地开发环境配置
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  profiles:
+    active: windows
+  
+  # Windows环境数据库配置
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ai_ecommerce_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 20000
+      idle-timeout: 300000
+      max-lifetime: 1200000
+  
+  # JPA配置 - Windows环境
+  jpa:
+    hibernate:
+      ddl-auto: update  # Windows开发环境使用update
+    show-sql: true      # Windows下显示SQL便于调试
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        use_sql_comments: true
+  
+  # Redis配置 - Windows环境
+  redis:
+    host: localhost
+    port: 6379
+    password: 
+    timeout: 6000ms
+    lettuce:
+      pool:
+        max-active: 10
+        max-wait: -1ms
+        max-idle: 5
+        min-idle: 0
+
+# JWT配置 - Windows开发环境
+jwt:
+  secret: ai-ecommerce-windows-dev-secret-key-2024
+  expiration: 86400000  # 24小时 (Windows开发环境延长token时间)
+  refresh-expiration: 604800000  # 7天
+
+# 日志配置 - Windows环境
+logging:
+  level:
+    com.aicommerce: DEBUG
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  file:
+    name: C:/temp/ai-ecommerce/logs/application.log  # Windows路径格式
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# 文件上传配置 - Windows环境
+file:
+  upload:
+    path: C:/temp/ai-ecommerce/uploads/  # Windows文件上传路径
+    max-size: 10MB
+    allowed-types: jpg,jpeg,png,gif,pdf
+
+# CORS配置 - Windows开发环境
+cors:
+  allowed-origins:
+    - http://localhost:3000
+    - http://127.0.0.1:3000
+    - http://localhost:8080
+    - http://127.0.0.1:8080
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - OPTIONS
+  allowed-headers:
+    - "*"
+  allow-credentials: true
+
+# Windows环境特定配置
+windows:
+  # 文件路径使用反斜杠
+  file-separator: "\\"
+  # 临时目录
+  temp-dir: C:/temp/ai-ecommerce/
+  # 是否启用Windows性能优化
+  performance-optimization: true
+  # 内存配置(适合Windows开发环境)
+  memory:
+    heap-size: 1024m
+    max-heap-size: 2048m

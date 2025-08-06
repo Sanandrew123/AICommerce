@@ -10,11 +10,15 @@ spring:
   application:
     name: ai-ecommerce-backend
   
-  # 数据库配置
+  # 多环境配置支持
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  
+  # 数据库配置 (支持多环境)
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ai_ecommerce}
-    username: ${DB_USER:admin}
-    password: ${DB_PASSWORD:password123}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ai_ecommerce_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
