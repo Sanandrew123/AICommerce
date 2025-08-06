@@ -1,4 +1,4 @@
-import { apiClient } from './api';
+import apiClient from './api';
 import { Order, PaginatedResponse, ApiResponse } from '../types';
 
 export interface CreateOrderRequest {

@@ -1,4 +1,4 @@
-import { apiClient } from './api';
+import apiClient from './api';
 import { Product, Category, PaginatedResponse, ApiResponse } from '../types';
 
 export interface ProductSearchParams {

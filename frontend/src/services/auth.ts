@@ -1,5 +1,5 @@
 import { ApiResponse } from '../types';
-import { apiClient } from './api';
+import apiClient from './api';
 
 export interface LoginRequest {
   username: string;
@@ -26,20 +26,26 @@ export interface AuthResponse {
 
 class AuthService {
   async login(credentials: LoginRequest): Promise<AuthResponse> {
-    const response = await apiClient.post<AuthResponse>('/auth/login', credentials);
+    // 后端期望 identifier 字段，前端传 username
+    const backendRequest = {
+      identifier: credentials.username,
+      password: credentials.password
+    };
     
-    if (response.success && response.accessToken) {
+    const response = await apiClient.post<AuthResponse>('/auth/login', backendRequest);
+    
+    if (response.success && response.data?.accessToken) {
       // 存储tokens
-      localStorage.setItem('accessToken', response.accessToken);
-      if (response.refreshToken) {
-        localStorage.setItem('refreshToken', response.refreshToken);
+      localStorage.setItem('accessToken', response.data.accessToken);
+      if (response.data.refreshToken) {
+        localStorage.setItem('refreshToken', response.data.refreshToken);
       }
-      if (response.user) {
-        localStorage.setItem('user', JSON.stringify(response.user));
+      if (response.data.user) {
+        localStorage.setItem('user', JSON.stringify(response.data.user));
       }
     }
     
-    return response;
+    return response.data || response;
   }
 
   async register(userData: RegisterRequest): Promise<AuthResponse> {
@@ -47,11 +53,13 @@ class AuthService {
   }
 
   async checkUsername(username: string): Promise<ApiResponse<{ available: boolean }>> {
-    return await apiClient.get<{ available: boolean }>(`/auth/check-username?username=${encodeURIComponent(username)}`);
+    // 后端使用POST方法
+    return await apiClient.post<{ available: boolean }>('/auth/check-username', { username });
   }
 
   async checkEmail(email: string): Promise<ApiResponse<{ available: boolean }>> {
-    return await apiClient.get<{ available: boolean }>(`/auth/check-email?email=${encodeURIComponent(email)}`);
+    // 后端使用POST方法
+    return await apiClient.post<{ available: boolean }>('/auth/check-email', { email });
   }
 
   logout(): void {

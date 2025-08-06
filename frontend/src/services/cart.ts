@@ -1,4 +1,4 @@
-import { apiClient } from './api';
+import apiClient from './api';
 import { CartItem, ApiResponse } from '../types';
 
 export interface AddToCartRequest {
