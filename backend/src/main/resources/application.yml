@@ -2,7 +2,7 @@
 # 心理过程：分环境配置，开发时方便调试，生产时优化性能
 
 server:
-  port: 8080
+  port: 8081
   servlet:
     context-path: /api
 
@@ -10,15 +10,19 @@ spring:
   application:
     name: ai-ecommerce-backend
   
+  # 允许循环引用
+  main:
+    allow-circular-references: true
+  
   # 多环境配置支持
   profiles:
     active: ${SPRING_PROFILES_ACTIVE:dev}
   
   # 数据库配置 (支持多环境)
   datasource:
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ai_ecommerce_db}
-    username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:postgres}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ai_ecommerce}
+    username: ${DB_USER:admin}
+    password: ${DB_PASSWORD:password123}
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
@@ -30,7 +34,7 @@ spring:
   # JPA配置
   jpa:
     hibernate:
-      ddl-auto: validate  # 生产环境使用validate，开发环境可用update
+      ddl-auto: create  # 生产环境使用validate，开发环境可用update
     show-sql: false
     properties:
       hibernate:
